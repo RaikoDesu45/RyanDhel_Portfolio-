@@ -8,6 +8,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Bebas+Neue&display=swap" rel="stylesheet">
+    @viteReactRefresh
+    @vite('resources/js/app.js')
     <style>
         :root {
             --bg: #090b1d;
@@ -263,6 +265,137 @@
             text-shadow: 0 10px 34px rgba(4, 10, 27, 0.75);
         }
 
+        .texture-heading {
+            position: relative;
+            color: transparent;
+            background-image: linear-gradient(105deg, #7cfbe7 0%, #ffe79d 22%, #ff98cb 48%, #b9d4ff 74%, #7cfbe7 100%);
+            background-size: 240% 240%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textTextureShift 10s ease-in-out infinite;
+        }
+
+        .texture-heading::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0.28;
+            mix-blend-mode: screen;
+            background-image: repeating-linear-gradient(135deg,
+                    rgba(255, 255, 255, 0.35) 0px,
+                    rgba(255, 255, 255, 0.35) 1px,
+                    transparent 1px,
+                    transparent 5px);
+        }
+
+        .hero-role-animator {
+            margin-top: 0.85rem;
+            min-height: 2.05rem;
+        }
+
+        .hero-skill-tape {
+            margin-top: 0.85rem;
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            padding: 0.4rem;
+            background: rgba(6, 10, 24, 0.55);
+            overflow: hidden;
+        }
+
+        .skill-tape-mask {
+            position: relative;
+            overflow: hidden;
+            border-radius: 999px;
+        }
+
+        .skill-tape-mask::before,
+        .skill-tape-mask::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .skill-tape-mask::before {
+            background: linear-gradient(90deg, rgba(6, 10, 24, 0.95), transparent 15%);
+        }
+
+        .skill-tape-mask::after {
+            background: linear-gradient(270deg, rgba(6, 10, 24, 0.95), transparent 15%);
+        }
+
+        .skill-tape-row {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            min-width: max-content;
+            padding-right: 0.5rem;
+        }
+
+        .skill-pill {
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 999px;
+            padding: 0.28rem 0.72rem;
+            font-size: 0.74rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            font-weight: 800;
+            background: rgba(255, 255, 255, 0.05);
+            color: #f1f5ff;
+            white-space: nowrap;
+        }
+
+        .skill-pill:nth-child(odd) {
+            background-image: linear-gradient(110deg, rgba(70, 245, 213, 0.2), rgba(255, 213, 107, 0.2));
+        }
+
+        .skill-pill:nth-child(even) {
+            background-image: linear-gradient(110deg, rgba(255, 152, 203, 0.2), rgba(125, 194, 255, 0.2));
+        }
+
+        .hero-role-shell {
+            display: inline-flex;
+            align-items: baseline;
+            gap: 0.55rem;
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            padding: 0.45rem 0.85rem;
+            background: rgba(7, 11, 27, 0.6);
+        }
+
+        .hero-role-label {
+            font-size: 0.73rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--muted);
+            font-weight: 700;
+        }
+
+        .hero-role-track {
+            min-width: min(50vw, 280px);
+            height: 1.25rem;
+            display: inline-flex;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .hero-role-value {
+            font-size: 0.95rem;
+            font-weight: 800;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            background-image: linear-gradient(120deg, var(--accent), var(--accent-alt), #ffa6d8);
+            background-size: 180% 180%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textTextureShift 8s ease-in-out infinite;
+            white-space: nowrap;
+        }
+
         .hero-copy p {
             margin-top: 1rem;
             color: var(--muted);
@@ -472,6 +605,16 @@
             font-size: clamp(2rem, 5vw, 3.2rem);
             letter-spacing: 0.03em;
             line-height: 0.9;
+        }
+
+        .section-title.textured-title {
+            color: transparent;
+            background-image: linear-gradient(105deg, #a5ffe9, #ffe79d, #ff98cb, #9cc8ff);
+            background-size: 260% 260%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textTextureShift 12s ease-in-out infinite;
         }
 
         .section-subtitle {
@@ -769,6 +912,10 @@
             transform: translateY(0);
         }
 
+        [data-motion-item] {
+            transform: translateY(0);
+        }
+
         @keyframes pulse {
             0% {
                 box-shadow: 0 0 0 0 rgba(66, 243, 167, 0.32);
@@ -787,6 +934,17 @@
 
             50% {
                 transform: translate(-10px, 12px);
+            }
+        }
+
+        @keyframes textTextureShift {
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
             }
         }
 
@@ -868,6 +1026,25 @@
                 align-items: flex-start;
                 flex-direction: column;
             }
+
+            .hero-role-shell {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .hero-role-track {
+                min-width: 55%;
+                justify-content: flex-end;
+            }
+
+            .hero-skill-tape {
+                margin-top: 0.7rem;
+            }
+
+            .skill-tape-mask::before,
+            .skill-tape-mask::after {
+                display: none;
+            }
         }
     </style>
 </head>
@@ -913,31 +1090,43 @@
 
     <main class="shell">
         <section class="hero" id="overview">
-            <article class="hero-copy reveal">
+            <article class="hero-copy reveal" data-react-group>
                 
-                <h1>Aspiring Web Developer</h1>
-                <p>
+                <h1 class="texture-heading" data-motion-item>Aspiring Web Developer</h1>
+                <div
+                    id="heroRoleAnimator"
+                    class="hero-role-animator"
+                    data-motion-item
+                    data-roles='["Web Developer", "IT Support Specialist", "Network Technician", "CCTV & Security Installer"]'>
+                </div>
+                <div
+                    id="heroSkillTapeAnimator"
+                    class="hero-skill-tape"
+                    data-motion-item
+                    data-items='["Networking", "CCTV Setup", "Frontend UI", "PHP + Laravel", "MySQL", "Customer Support", "Troubleshooting", "System Maintenance"]'>
+                </div>
+                <p data-motion-item>
                     Dedicated as Bachelor of Science in Information Systems graduate with a strong foundation in network infrastructure,
                     surveillance systems, web development, and technical support. Experienced in customer service,
                     troubleshooting, and improving operations through technology.
                 </p>
 
-                <div class="cta-row">
+                <div class="cta-row" data-motion-item>
                     <a class="btn btn-primary" href="#projects">View Experience</a>
                     <a class="btn btn-outline" href="#contact">Contact Me</a>
                     <a class="btn btn-outline" href="{{ $cvPdf ? asset($cvPdf) : '#contact' }}" @if($cvPdf) download @endif>Download CV (PDF)</a>
                 </div>
 
                 <div class="kpi-grid">
-                    <div class="kpi">
+                    <div class="kpi" data-motion-item>
                         <strong>2019-2025</strong>
                         <span>BS Information Systems</span>
                     </div>
-                    <div class="kpi">
+                    <div class="kpi" data-motion-item>
                         <strong>24/7</strong>
                         <span>Surveillance Setup</span>
                     </div>
-                    <div class="kpi">
+                    <div class="kpi" data-motion-item>
                         <strong>2024</strong>
                         <span>IT Internship</span>
                     </div>
@@ -978,14 +1167,14 @@
             </article>
         </section>
 
-        <section class="section reveal" id="about">
-            <h2 class="section-title">Professional Summary</h2>
-            <p class="section-subtitle">
+        <section class="section reveal" id="about" data-react-group>
+            <h2 class="section-title textured-title" data-motion-item>Professional Summary</h2>
+            <p class="section-subtitle" data-motion-item>
                 Hands-on learner with practical exposure to customer-facing support, hardware troubleshooting,
                 and real-world network and security implementation.
             </p>
             <div class="about-grid">
-                <article class="about-panel">
+                <article class="about-panel" data-motion-item>
                     I graduated with a <strong>Bachelor of Science in Information Systems</strong> and built my skills in networking,
                     surveillance setup, web development, and IT support. During my internship and academic projects, I worked on
                     lab operations, system maintenance, and campus security solutions.
@@ -994,21 +1183,21 @@
                     with inquiries, payments, returns, and account concerns while delivering clear policy guidance.
                 </article>
                 <ul class="focus-list">
-                    <li>Network Cabling (Cat5e/Cat6)</li>
-                    <li>CCTV + DVR Configuration</li>
-                    <li>HTML5, CSS3, JavaScript, PHP</li>
-                    <li>MySQL + System Maintenance</li>
+                    <li data-motion-item>Network Cabling (Cat5e/Cat6)</li>
+                    <li data-motion-item>CCTV + DVR Configuration</li>
+                    <li data-motion-item>HTML5, CSS3, JavaScript, PHP</li>
+                    <li data-motion-item>MySQL + System Maintenance</li>
                 </ul>
             </div>
         </section>
 
-        <section class="section reveal" id="projects">
-            <h2 class="section-title">Experience & Projects</h2>
-            <p class="section-subtitle">
+        <section class="section reveal" id="projects" data-react-group>
+            <h2 class="section-title textured-title" data-motion-item>Experience & Projects</h2>
+            <p class="section-subtitle" data-motion-item>
                 Practical experience from customer service, internship responsibilities, and technical academic projects.
             </p>
             <div class="project-grid">
-                <article class="project-card">
+                <article class="project-card" data-motion-item>
                     <span class="chip">Work Experience</span>
                     <h3>Customer Service Representative (Target Account)</h3>
                     <p>
@@ -1022,9 +1211,9 @@
                     </div>
                 </article>
 
-                <article class="project-card">
+                <article class="project-card" data-motion-item>
                     <span class="chip">Internship</span>
-                    <h3>IT Intern | ACC College, Taytay</h3>
+                    <h3>IT Intern | ACLC College, Taytay</h3>
                     <p>
                         Assisted with computer laboratory and library operations, supported technical maintenance,
                         and performed troubleshooting for campus computing facilities (Feb 2024 - May 2024).
@@ -1036,7 +1225,7 @@
                     </div>
                 </article>
 
-                <article class="project-card">
+                <article class="project-card" data-motion-item>
                     <span class="chip">Academic Project</span>
                     <h3>Network Setup & Security System Installation</h3>
                     <p>
@@ -1052,13 +1241,13 @@
             </div>
         </section>
 
-        <section class="section reveal" id="skills">
-            <h2 class="section-title">Technical Skills</h2>
-            <p class="section-subtitle">
+        <section class="section reveal" id="skills" data-react-group>
+            <h2 class="section-title textured-title" data-motion-item>Technical Skills</h2>
+            <p class="section-subtitle" data-motion-item>
                 Core technical competencies aligned with entry-level IT support, networking, and web development roles.
             </p>
             <div class="skills-grid">
-                <article class="skill-panel">
+                <article class="skill-panel" data-motion-item>
                     <h3>Networking & Security</h3>
                     <div class="stack">
                         <span>Network Cabling</span>
@@ -1068,7 +1257,7 @@
                         <span>24/7 Surveillance</span>
                     </div>
                 </article>
-                <article class="skill-panel">
+                <article class="skill-panel" data-motion-item>
                     <h3>Web Development</h3>
                     <div class="stack">
                         <span>HTML5</span>
@@ -1078,7 +1267,7 @@
                         <span>Responsive UI</span>
                     </div>
                 </article>
-                <article class="skill-panel">
+                <article class="skill-panel" data-motion-item>
                     <h3>IT Support & Database</h3>
                     <div class="stack">
                         <span>MySQL</span>
@@ -1091,13 +1280,13 @@
             </div>
         </section>
 
-        <section class="section reveal" id="contact">
-            <h2 class="section-title">Education & Contact</h2>
-            <p class="section-subtitle">
+        <section class="section reveal" id="contact" data-react-group>
+            <h2 class="section-title textured-title" data-motion-item>Education & Contact</h2>
+            <p class="section-subtitle" data-motion-item>
                 If you are hiring for IT support, networking, or junior web development roles, I would be glad to connect.
             </p>
             <div class="contact-grid">
-                <article class="contact-card">
+                <article class="contact-card" data-motion-item>
                     <p>
                         Character reference is available upon request. I am open to interviews and technical assessments
                         for entry-level roles.
@@ -1126,7 +1315,7 @@
                     </div>
                 </article>
 
-                <article class="contact-form">
+                <article class="contact-form" data-motion-item>
                     <h3>Education</h3>
                     <ul class="contact-list">
                         <li>
@@ -1147,14 +1336,14 @@
                         </li>
                     </ul>
 
-                    <div class="cert-box">
+                    <div class="cert-box" data-motion-item>
                         <strong>Certification & Training</strong>
                         Navigating Pathways in the IT-BPM Industry - Metro Rizal IT-BPM Summit (November 26, 2024)
                     </div>
                 </article>
             </div>
 
-            <form class="contact-form contact-mail-form" action="{{ route('contact.store') }}" method="post">
+            <form class="contact-form contact-mail-form" action="{{ route('contact.store') }}" method="post" data-motion-item>
                 @csrf
                 <h3>Send Message Via Email</h3>
 
@@ -1190,6 +1379,8 @@
     <footer>
         Copyright {{ date('Y') }} Ryan Canja. Built with Laravel.
     </footer>
+
+    <div id="scrollRevealAnimator" aria-hidden="true"></div>
 
     <script>
         const menuToggle = document.getElementById('menuToggle');
